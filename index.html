@@ -441,21 +441,33 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 440px;
+  flex-wrap: nowrap;
   gap: 16px;
 }
 
-.hero-cta {
-  display: inline-block;
+.hero-cta,
+.hero-resume {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: #FFFFFF;
-  border: 1px solid #8B7E66;
-  padding: 14px 36px;
+  padding: 14px 28px;
   border-radius: 4px;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-cta {
+  border: 1px solid #8B7E66;
 }
 
 .hero-cta:hover {
@@ -464,39 +476,99 @@ ul {
 }
 
 .hero-resume {
-  font-size: 0.76rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  border-bottom: 1px solid rgba(255,255,255,0.35);
-  padding: 12px 2px 5px;
-  transition: color 0.25s ease, border-color 0.25s ease;
+  border: 1px solid rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.035);
 }
 
 .hero-resume:hover {
-  color: #FFFFFF;
+  color: #1A1A1A;
+  background: #FFFFFF;
   border-color: #FFFFFF;
 }
 
-.hero-image {
+.hero-showcase {
   width: 100%;
-  display: block;
-  position: relative;
-}
-
-.hero-image img {
-  width: 100%;
-  aspect-ratio: 1366 / 767;
-  object-fit: cover;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  background: #292929;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
-  box-shadow: 0 32px 64px rgba(0,0,0,0.35), 0 0 0 1px rgba(139,126,102,0.15);
-  transition: transform 0.6s cubic-bezier(.2,.8,.2,1), box-shadow 0.6s ease;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.35);
 }
 
-.hero-image:hover img {
-  transform: translateY(-3px);
-  box-shadow: 0 38px 76px rgba(0,0,0,0.42), 0 0 0 1px rgba(139,126,102,0.22);
+.hero-portrait {
+  position: relative;
+  aspect-ratio: 695 / 767;
+  overflow: hidden;
+  background: #292929;
+}
+
+.hero-portrait img {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 196.55%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+}
+
+.hero-about-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(44px, 6vw, 76px);
+  background: #292929;
+  border-left: 1px solid rgba(255,255,255,0.13);
+}
+
+.hero-about-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #A99C87;
+}
+
+.hero-about-panel h2 {
+  max-width: 390px;
+  margin-bottom: 22px;
+  color: #FFFFFF;
+  font-size: clamp(2rem, 3.8vw, 3.35rem);
+  line-height: 1.04;
+}
+
+.hero-about-copy {
+  max-width: 410px;
+  color: rgba(255,255,255,0.62);
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+.hero-about-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 12px 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 3px;
+  color: rgba(255,255,255,0.86);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.hero-about-link:hover {
+  background: #FFFFFF;
+  color: #1A1A1A;
+  border-color: #FFFFFF;
 }
 
 .project-cover {
@@ -1160,8 +1232,18 @@ ul {
     margin: 0 auto 32px;
   }
 
-  .hero-image img {
-    aspect-ratio: 16 / 9;
+  .hero-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-about-panel {
+    min-height: 390px;
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.13);
+  }
+
+  .hero-about-copy {
+    max-width: 560px;
   }
 
   .about-layout,
@@ -1214,6 +1296,23 @@ ul {
 
   .hero-name {
     font-size: 2.2rem;
+  }
+
+  .hero-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .hero-cta,
+  .hero-resume {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero-about-panel {
+    min-height: 340px;
+    padding: 36px 28px;
   }
 
   .about, .services, .experience, .projects, .skills, .sustainability, .education, .contact {
@@ -1286,13 +1385,23 @@ ul {
           <p class="hero-subtitle">Luxury residential interiors shaped with clarity, warmth, and material honesty &mdash; from concept through execution.</p>
           <div class="hero-actions">
             <a href="#projects" class="hero-cta">View Selected Work</a>
-            <a href="001%20Merve%20Sahiner%20resume.pdf" class="hero-resume" target="_blank" rel="noopener">View Résumé</a>
+            <a href="001%20Merve%20Sahiner%20resume.pdf" class="hero-resume" target="_blank" rel="noopener">View CV</a>
           </div>
         </div>
       </div>
-      <a class="hero-image" href="#about" aria-label="Continue to the about section">
-        <img src="assets/merve-sahiner-interior-architect-portrait.jpg" width="1366" height="767" fetchpriority="high" decoding="async" alt="Merve Sahiner, interior architect and designer">
-      </a>
+      <div class="hero-showcase">
+        <div class="hero-portrait">
+          <img src="assets/merve-sahiner-interior-architect-portrait.jpg" width="1366" height="767" fetchpriority="high" decoding="async" alt="Portrait of Merve Sahiner, interior architect and designer">
+        </div>
+        <div class="hero-about-panel">
+          <p class="hero-about-label">About the Practice</p>
+          <div>
+            <h2>Quiet spaces.<br>Clear intentions.</h2>
+            <p class="hero-about-copy">Merve brings together warm materiality, precise planning, and buildable detail to create interiors that feel natural, personal, and enduring.</p>
+          </div>
+          <a class="hero-about-link" href="#about">Discover Merve&rsquo;s approach</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>

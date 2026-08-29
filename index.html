@@ -933,8 +933,8 @@ body.lightbox-open {
 }
 
 .lightbox-image {
-  width: auto;
-  height: auto;
+  width: calc(100% - 132px);
+  height: 100%;
   max-width: calc(100% - 132px);
   max-height: 100%;
   object-fit: contain;
@@ -1447,6 +1447,8 @@ body.lightbox-open {
   }
 
   .lightbox-image {
+    width: 100%;
+    height: 100%;
     max-width: 100%;
     max-height: calc(100dvh - 150px);
   }
@@ -1746,7 +1748,7 @@ body.lightbox-open {
     <!-- Project 01 -->
     <div class="project-card fade-in">
       <div class="project-image project-cover">
-        <button class="project-image-button" type="button" aria-label="Open Penthouse Design cover in full screen">
+        <button class="project-image-button" type="button" data-gallery="penthouse" data-gallery-index="0" aria-label="Open the 2-image Penthouse Design gallery">
           <img src="assets/penthouse-interior-design-01.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Warm contemporary penthouse living and dining interiors designed by Merve Sahiner">
         </button>
         <a class="project-work-hotspot" href="#penthouse-gallery" aria-label="View the Penthouse Design project">
@@ -1754,7 +1756,7 @@ body.lightbox-open {
         </a>
       </div>
       <div class="project-image" id="penthouse-gallery" style="margin-top:16px;">
-        <button class="project-image-button" type="button" aria-label="Open Penthouse Design interior in full screen">
+        <button class="project-image-button" type="button" data-gallery="penthouse" data-gallery-index="1" aria-label="Open the 2-image Penthouse Design gallery at image 2">
           <img src="assets/penthouse-interior-design-02.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Light-filled penthouse living space opening toward sea views">
         </button>
       </div>
@@ -1773,7 +1775,7 @@ body.lightbox-open {
     <!-- Project 02 -->
     <div class="project-card fade-in">
       <div class="project-image">
-        <button class="project-image-button" type="button" aria-label="Open Twin Villa Design in full screen">
+        <button class="project-image-button" type="button" data-gallery="twin-villa" data-gallery-index="0" aria-label="Open the 9-image Twin Villa Design gallery">
           <img src="assets/twin-villa-luxury-interior.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Twin Villa luxury interiors with natural stone, wood, and wabi-sabi warmth">
         </button>
       </div>
@@ -1793,7 +1795,7 @@ body.lightbox-open {
     <!-- Project 03 -->
     <div class="project-card fade-in">
       <div class="project-image project-image-grid">
-        <button class="project-image-button" type="button" aria-label="Open Göcek Luxury Villa in full screen">
+        <button class="project-image-button" type="button" data-gallery="gocek-villa" data-gallery-index="0" aria-label="Open the 4-image Göcek Luxury Villa gallery">
           <img src="assets/gocek-luxury-villa-interior.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Göcek luxury villa kitchen, bedroom, living room, and bathroom interiors">
         </button>
       </div>
@@ -1813,7 +1815,7 @@ body.lightbox-open {
     <!-- Project 04 -->
     <div class="project-card fade-in">
       <div class="project-image">
-        <button class="project-image-button" type="button" aria-label="Open Selected Kitchen Designs in full screen">
+        <button class="project-image-button" type="button" data-gallery="kitchens" data-gallery-index="0" aria-label="Open the 5-image Selected Kitchen Designs gallery">
           <img src="assets/selected-kitchen-designs.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Selection of warm minimal and contemporary kitchen designs by Merve Sahiner">
         </button>
       </div>
@@ -1835,7 +1837,7 @@ body.lightbox-open {
     <!-- Project 05 -->
     <div class="project-card fade-in">
       <div class="project-image">
-        <button class="project-image-button" type="button" aria-label="Open Office Design in full screen">
+        <button class="project-image-button" type="button" data-gallery="office" data-gallery-index="0" aria-label="Open the 3-image Office Design gallery">
           <img src="assets/office-interior-design.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Open-plan office interior with warm wood and glass partitions in Famagusta, Cyprus">
         </button>
       </div>
@@ -2118,31 +2120,92 @@ const lightboxPrev = document.getElementById('lightboxPrev');
 const lightboxNext = document.getElementById('lightboxNext');
 const lightboxStage = document.getElementById('lightboxStage');
 const galleryButtons = Array.from(document.querySelectorAll('.project-image-button'));
-const galleryItems = galleryButtons.map(button => {
-  const image = button.querySelector('img');
-  const projectTitle = button.closest('.project-card').querySelector('h3').textContent.trim();
-  return { button, image, projectTitle };
-});
+
+const projectGalleries = {
+  penthouse: {
+    title: 'Penthouse Design',
+    items: [
+      {
+        src: 'assets/penthouse-interior-design-01.jpg',
+        label: 'Project Overview',
+        alt: 'Warm contemporary penthouse living and dining interiors designed by Merve Sahiner'
+      },
+      {
+        src: 'assets/penthouse-interior-design-02.jpg',
+        label: 'Living Area',
+        alt: 'Light-filled penthouse living space opening toward sea views'
+      }
+    ]
+  },
+  'twin-villa': {
+    title: 'Twin Villa Design',
+    items: [
+      { src: 'assets/twin-villa/01-bedroom.jpg', label: 'Bedroom', alt: 'Twin Villa bedroom with warm neutral finishes and full-height windows' },
+      { src: 'assets/twin-villa/02-home-office.jpg', label: 'Home Office', alt: 'Twin Villa home office with bespoke timber shelving' },
+      { src: 'assets/twin-villa/03-staircase.jpg', label: 'Staircase', alt: 'Twin Villa staircase with sculptural balustrade and feature wall' },
+      { src: 'assets/twin-villa/04-dressing-room.jpg', label: 'Dressing Room', alt: 'Twin Villa dressing room with built-in wardrobes and garden view' },
+      { src: 'assets/twin-villa/05-exterior.jpg', label: 'Exterior', alt: 'Contemporary exterior architecture of the Twin Villa Design' },
+      { src: 'assets/twin-villa/06-kitchen-dining.jpg', label: 'Kitchen & Dining', alt: 'Twin Villa kitchen and dining space in a warm natural palette' },
+      { src: 'assets/twin-villa/07-kitchen.jpg', label: 'Kitchen', alt: 'Twin Villa kitchen with pale timber cabinetry and integrated lighting' },
+      { src: 'assets/twin-villa/08-dining-room.jpg', label: 'Dining Room', alt: 'Twin Villa dining room with timber lattice screens' },
+      { src: 'assets/twin-villa/09-terrace.jpg', label: 'Terrace', alt: 'Twin Villa enclosed terrace with natural textures and planting' }
+    ]
+  },
+  'gocek-villa': {
+    title: 'Göcek Luxury Villa',
+    items: [
+      { src: 'assets/gocek-villa/01-kitchen.jpg', label: 'Kitchen', alt: 'Göcek villa kitchen with a stone island and warm timber cabinetry' },
+      { src: 'assets/gocek-villa/02-bedroom.jpg', label: 'Bedroom', alt: 'Göcek villa bedroom with sculptural lighting and natural stone' },
+      { src: 'assets/gocek-villa/03-living-room.jpg', label: 'Living Room', alt: 'Göcek villa living room with curved furniture and statement artwork' },
+      { src: 'assets/gocek-villa/04-bathroom.jpg', label: 'Bathroom', alt: 'Göcek villa bathroom layered in stone, timber, and planting' }
+    ]
+  },
+  kitchens: {
+    title: 'Selected Kitchen Designs',
+    items: [
+      { src: 'assets/kitchens/01-stone-island.jpg', label: 'Stone Island', alt: 'Minimal kitchen with a monolithic stone island and concealed cabinetry' },
+      { src: 'assets/kitchens/02-walnut-kitchen.jpg', label: 'Walnut Kitchen', alt: 'Open-plan walnut kitchen with an integrated dining island' },
+      { src: 'assets/kitchens/03-grey-kitchen.jpg', label: 'Soft Grey Kitchen', alt: 'Soft grey kitchen with a round dining table and full-height storage' },
+      { src: 'assets/kitchens/04-light-oak-kitchen.jpg', label: 'Light Oak Kitchen', alt: 'Light oak kitchen and dining space with warm integrated lighting' },
+      { src: 'assets/kitchens/05-kitchen-island.jpg', label: 'Compact Island', alt: 'Bright contemporary kitchen with a compact timber island' }
+    ]
+  },
+  office: {
+    title: 'Office Design',
+    items: [
+      { src: 'assets/office/01-executive-office.jpg', label: 'Executive Office', alt: 'Executive office with a city view and warm timber detailing' },
+      { src: 'assets/office/02-meeting-room.jpg', label: 'Meeting Area', alt: 'Glass-partitioned meeting and collaboration area' },
+      { src: 'assets/office/03-workspace.jpg', label: 'Informal Workspace', alt: 'Informal office workspace overlooking the landscape' }
+    ]
+  }
+};
 
 let activeGalleryIndex = 0;
+let activeGallery = null;
 let previousGalleryFocus = null;
 let touchStartX = null;
 
 function renderGalleryItem(index) {
-  activeGalleryIndex = (index + galleryItems.length) % galleryItems.length;
-  const item = galleryItems[activeGalleryIndex];
-  lightboxImage.src = item.image.currentSrc || item.image.src;
-  lightboxImage.alt = item.image.alt;
-  lightboxTitle.textContent = item.projectTitle;
-  lightboxCounter.textContent = `${String(activeGalleryIndex + 1).padStart(2, '0')} / ${String(galleryItems.length).padStart(2, '0')}`;
+  if (!activeGallery) return;
 
-  const nextItem = galleryItems[(activeGalleryIndex + 1) % galleryItems.length];
+  activeGalleryIndex = (index + activeGallery.items.length) % activeGallery.items.length;
+  const item = activeGallery.items[activeGalleryIndex];
+  lightboxImage.src = item.src;
+  lightboxImage.alt = item.alt;
+  lightboxTitle.textContent = `${activeGallery.title} — ${item.label}`;
+  lightboxCounter.textContent = `${String(activeGalleryIndex + 1).padStart(2, '0')} / ${String(activeGallery.items.length).padStart(2, '0')}`;
+
+  const nextItem = activeGallery.items[(activeGalleryIndex + 1) % activeGallery.items.length];
   const preloadImage = new Image();
-  preloadImage.src = nextItem.image.currentSrc || nextItem.image.src;
+  preloadImage.src = nextItem.src;
 }
 
-function openProjectGallery(index) {
+function openProjectGallery(galleryKey, index = 0) {
+  const gallery = projectGalleries[galleryKey];
+  if (!gallery || !gallery.items.length) return;
+
   previousGalleryFocus = document.activeElement;
+  activeGallery = gallery;
   renderGalleryItem(index);
   closeMobileNav();
   lightbox.hidden = false;
@@ -2154,6 +2217,7 @@ function openProjectGallery(index) {
 function closeProjectGallery() {
   lightbox.hidden = true;
   lightboxImage.src = '';
+  activeGallery = null;
   document.body.classList.remove('lightbox-open');
   nav.classList.remove('nav-hidden');
   if (previousGalleryFocus) previousGalleryFocus.focus();
@@ -2167,15 +2231,17 @@ function showNextImage() {
   renderGalleryItem(activeGalleryIndex + 1);
 }
 
-galleryItems.forEach((item, index) => {
-  item.button.addEventListener('click', () => openProjectGallery(index));
+galleryButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    openProjectGallery(button.dataset.gallery, Number(button.dataset.galleryIndex || 0));
+  });
 });
 
 const projectWorkHotspot = document.querySelector('.project-work-hotspot');
 if (projectWorkHotspot) {
   projectWorkHotspot.addEventListener('click', event => {
     event.preventDefault();
-    openProjectGallery(1);
+    openProjectGallery('penthouse', 1);
   });
 }
 

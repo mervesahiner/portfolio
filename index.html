@@ -268,7 +268,17 @@ ul {
   right: 0;
   z-index: 1000;
   padding: 18px 0;
-  transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+  transform: translateY(0);
+  will-change: transform;
+  transition: transform 0.35s ease, background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+}
+
+.nav.nav-hidden {
+  transform: translateY(-110%);
+}
+
+.nav.nav-hidden:focus-within {
+  transform: translateY(0);
 }
 
 .nav.scrolled {
@@ -826,6 +836,153 @@ ul {
   transform: scale(1.012);
 }
 
+.project-image-button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  font: inherit;
+}
+
+.project-image-button:focus-visible {
+  outline: 3px solid #8B7E66;
+  outline-offset: -5px;
+}
+
+/* ========== PROJECT LIGHTBOX ========== */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(12,12,12,0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.lightbox-dialog {
+  position: relative;
+  width: min(1240px, 100%);
+  height: min(900px, calc(100vh - 48px));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 16px;
+  color: #FFFFFF;
+}
+
+.lightbox-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.lightbox-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #A99C87;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.24);
+  background: rgba(255,255,255,0.05);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.lightbox-close {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.lightbox-stage {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.lightbox-image {
+  width: auto;
+  height: auto;
+  max-width: calc(100% - 132px);
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 24px 72px rgba(0,0,0,0.38);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 70px;
+  transform: translateY(-50%);
+  border-radius: 4px;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.lightbox-prev {
+  left: 0;
+}
+
+.lightbox-next {
+  right: 0;
+}
+
+.lightbox-caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 28px;
+}
+
+.lightbox-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.lightbox-counter {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.46);
+}
+
 .project-image-placeholder {
   font-size: 0.85rem;
   font-weight: 400;
@@ -1280,6 +1437,34 @@ ul {
     grid-template-columns: 1fr;
   }
 
+  .lightbox {
+    padding: 12px;
+  }
+
+  .lightbox-dialog {
+    height: calc(100dvh - 24px);
+    gap: 10px;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: calc(100dvh - 150px);
+  }
+
+  .lightbox-nav {
+    width: 44px;
+    height: 60px;
+    background: rgba(20,20,20,0.72);
+  }
+
+  .lightbox-prev {
+    left: 8px;
+  }
+
+  .lightbox-next {
+    right: 8px;
+  }
+
   .section-heading {
     font-size: 2rem;
   }
@@ -1326,6 +1511,11 @@ ul {
   .stat-number {
     font-size: 1.6rem;
   }
+
+  .lightbox-caption {
+    align-items: flex-start;
+    gap: 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1360,7 +1550,7 @@ ul {
       <a href="#projects">Projects</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
-      <a class="nav-resume" href="001%20Merve%20Sahiner%20resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a class="nav-resume" href="001%20Merve%20Sahiner%20resume.pdf" target="_blank" rel="noopener">Resume</a>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-controls="navLinks" aria-expanded="false">
       <span></span>
@@ -1385,7 +1575,7 @@ ul {
           <p class="hero-subtitle">Luxury residential interiors shaped with clarity, warmth, and material honesty &mdash; from concept through execution.</p>
           <div class="hero-actions">
             <a href="#projects" class="hero-cta">View Selected Work</a>
-            <a href="001%20Merve%20Sahiner%20resume.pdf" class="hero-resume" target="_blank" rel="noopener">View CV</a>
+            <a href="001%20Merve%20Sahiner%20resume.pdf" class="hero-resume" target="_blank" rel="noopener">View Resume</a>
           </div>
         </div>
       </div>
@@ -1556,13 +1746,17 @@ ul {
     <!-- Project 01 -->
     <div class="project-card fade-in">
       <div class="project-image project-cover">
-        <img src="assets/penthouse-interior-design-01.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Warm contemporary penthouse living and dining interiors designed by Merve Sahiner">
+        <button class="project-image-button" type="button" aria-label="Open Penthouse Design cover in full screen">
+          <img src="assets/penthouse-interior-design-01.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Warm contemporary penthouse living and dining interiors designed by Merve Sahiner">
+        </button>
         <a class="project-work-hotspot" href="#penthouse-gallery" aria-label="View the Penthouse Design project">
           View my work
         </a>
       </div>
       <div class="project-image" id="penthouse-gallery" style="margin-top:16px;">
-        <img src="assets/penthouse-interior-design-02.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Light-filled penthouse living space opening toward sea views">
+        <button class="project-image-button" type="button" aria-label="Open Penthouse Design interior in full screen">
+          <img src="assets/penthouse-interior-design-02.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Light-filled penthouse living space opening toward sea views">
+        </button>
       </div>
       <p class="project-number">01</p>
       <h3>Penthouse Design</h3>
@@ -1579,7 +1773,9 @@ ul {
     <!-- Project 02 -->
     <div class="project-card fade-in">
       <div class="project-image">
-        <img src="assets/twin-villa-luxury-interior.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Twin Villa luxury interiors with natural stone, wood, and wabi-sabi warmth">
+        <button class="project-image-button" type="button" aria-label="Open Twin Villa Design in full screen">
+          <img src="assets/twin-villa-luxury-interior.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Twin Villa luxury interiors with natural stone, wood, and wabi-sabi warmth">
+        </button>
       </div>
       <p class="project-number">02</p>
       <h3>Twin Villa Design</h3>
@@ -1597,7 +1793,9 @@ ul {
     <!-- Project 03 -->
     <div class="project-card fade-in">
       <div class="project-image project-image-grid">
-        <img src="assets/gocek-luxury-villa-interior.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Göcek luxury villa kitchen, bedroom, living room, and bathroom interiors">
+        <button class="project-image-button" type="button" aria-label="Open Göcek Luxury Villa in full screen">
+          <img src="assets/gocek-luxury-villa-interior.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Göcek luxury villa kitchen, bedroom, living room, and bathroom interiors">
+        </button>
       </div>
       <p class="project-number">03</p>
       <h3>G&ouml;cek Luxury Villa</h3>
@@ -1615,7 +1813,9 @@ ul {
     <!-- Project 04 -->
     <div class="project-card fade-in">
       <div class="project-image">
-        <img src="assets/selected-kitchen-designs.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Selection of warm minimal and contemporary kitchen designs by Merve Sahiner">
+        <button class="project-image-button" type="button" aria-label="Open Selected Kitchen Designs in full screen">
+          <img src="assets/selected-kitchen-designs.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Selection of warm minimal and contemporary kitchen designs by Merve Sahiner">
+        </button>
       </div>
       <p class="project-number">04</p>
       <h3>Selected Kitchen Designs</h3>
@@ -1635,7 +1835,9 @@ ul {
     <!-- Project 05 -->
     <div class="project-card fade-in">
       <div class="project-image">
-        <img src="assets/office-interior-design.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Open-plan office interior with warm wood and glass partitions in Famagusta, Cyprus">
+        <button class="project-image-button" type="button" aria-label="Open Office Design in full screen">
+          <img src="assets/office-interior-design.jpg" width="1366" height="768" loading="lazy" decoding="async" draggable="false" alt="Open-plan office interior with warm wood and glass partitions in Famagusta, Cyprus">
+        </button>
       </div>
       <p class="project-number">05</p>
       <h3>Office Design</h3>
@@ -1803,7 +2005,7 @@ ul {
         <p class="contact-card-value">@mervesahinerdesign</p>
       </a>
       <a href="001%20Merve%20Sahiner%20resume.pdf" target="_blank" rel="noopener" class="contact-card">
-        <p class="contact-card-label">Résumé</p>
+        <p class="contact-card-label">Resume</p>
         <p class="contact-card-value">View professional experience &amp; credentials</p>
       </a>
       <div class="contact-card">
@@ -1817,6 +2019,25 @@ ul {
   </div>
 </section>
 </main>
+
+<!-- ========== PROJECT LIGHTBOX ========== -->
+<div class="lightbox" id="projectLightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
+  <div class="lightbox-dialog" tabindex="-1">
+    <div class="lightbox-toolbar">
+      <p class="lightbox-eyebrow">Selected Work</p>
+      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close full-screen project gallery">&times;</button>
+    </div>
+    <div class="lightbox-stage" id="lightboxStage">
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Previous project image">&lsaquo;</button>
+      <img class="lightbox-image" id="lightboxImage" src="" alt="">
+      <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Next project image">&rsaquo;</button>
+    </div>
+    <div class="lightbox-caption">
+      <p class="lightbox-title" id="lightboxTitle"></p>
+      <p class="lightbox-counter" id="lightboxCounter" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
 
 <!-- ========== FOOTER ========== -->
 <footer class="footer">
@@ -1833,17 +2054,44 @@ ul {
 <script>
 // ========== STICKY NAV ==========
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 60) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
+let lastScrollY = window.scrollY;
+let navUpdateQueued = false;
+
+function updateNavigation() {
+  const currentScrollY = window.scrollY;
+  nav.classList.toggle('scrolled', currentScrollY > 60);
+
+  if (currentScrollY <= 80 || navLinks.classList.contains('open')) {
+    nav.classList.remove('nav-hidden');
+  } else if (currentScrollY > lastScrollY) {
+    nav.classList.add('nav-hidden');
+  } else if (currentScrollY < lastScrollY) {
+    nav.classList.remove('nav-hidden');
   }
-});
+
+  lastScrollY = currentScrollY;
+  navUpdateQueued = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!navUpdateQueued) {
+    window.requestAnimationFrame(updateNavigation);
+    navUpdateQueued = true;
+  }
+}, { passive: true });
 
 // ========== MOBILE NAV TOGGLE ==========
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
+
+function closeMobileNav({ restoreFocus = false } = {}) {
+  navToggle.classList.remove('active');
+  navLinks.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  navToggle.setAttribute('aria-label', 'Open navigation');
+  document.body.classList.remove('menu-open');
+  if (restoreFocus) navToggle.focus();
+}
 
 navToggle.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('open');
@@ -1851,29 +2099,149 @@ navToggle.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', String(isOpen));
   navToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
   document.body.classList.toggle('menu-open', isOpen);
+  nav.classList.remove('nav-hidden');
 });
 
 // Close mobile nav on link click
 navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    navToggle.classList.remove('active');
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-    navToggle.setAttribute('aria-label', 'Open navigation');
-    document.body.classList.remove('menu-open');
-  });
+  link.addEventListener('click', () => closeMobileNav());
 });
 
+// ========== FULL-SCREEN PROJECT GALLERY ==========
+const lightbox = document.getElementById('projectLightbox');
+const lightboxDialog = lightbox.querySelector('.lightbox-dialog');
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxTitle = document.getElementById('lightboxTitle');
+const lightboxCounter = document.getElementById('lightboxCounter');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+const lightboxStage = document.getElementById('lightboxStage');
+const galleryButtons = Array.from(document.querySelectorAll('.project-image-button'));
+const galleryItems = galleryButtons.map(button => {
+  const image = button.querySelector('img');
+  const projectTitle = button.closest('.project-card').querySelector('h3').textContent.trim();
+  return { button, image, projectTitle };
+});
+
+let activeGalleryIndex = 0;
+let previousGalleryFocus = null;
+let touchStartX = null;
+
+function renderGalleryItem(index) {
+  activeGalleryIndex = (index + galleryItems.length) % galleryItems.length;
+  const item = galleryItems[activeGalleryIndex];
+  lightboxImage.src = item.image.currentSrc || item.image.src;
+  lightboxImage.alt = item.image.alt;
+  lightboxTitle.textContent = item.projectTitle;
+  lightboxCounter.textContent = `${String(activeGalleryIndex + 1).padStart(2, '0')} / ${String(galleryItems.length).padStart(2, '0')}`;
+
+  const nextItem = galleryItems[(activeGalleryIndex + 1) % galleryItems.length];
+  const preloadImage = new Image();
+  preloadImage.src = nextItem.image.currentSrc || nextItem.image.src;
+}
+
+function openProjectGallery(index) {
+  previousGalleryFocus = document.activeElement;
+  renderGalleryItem(index);
+  closeMobileNav();
+  lightbox.hidden = false;
+  document.body.classList.add('lightbox-open');
+  nav.classList.add('nav-hidden');
+  lightboxClose.focus();
+}
+
+function closeProjectGallery() {
+  lightbox.hidden = true;
+  lightboxImage.src = '';
+  document.body.classList.remove('lightbox-open');
+  nav.classList.remove('nav-hidden');
+  if (previousGalleryFocus) previousGalleryFocus.focus();
+}
+
+function showPreviousImage() {
+  renderGalleryItem(activeGalleryIndex - 1);
+}
+
+function showNextImage() {
+  renderGalleryItem(activeGalleryIndex + 1);
+}
+
+galleryItems.forEach((item, index) => {
+  item.button.addEventListener('click', () => openProjectGallery(index));
+});
+
+const projectWorkHotspot = document.querySelector('.project-work-hotspot');
+if (projectWorkHotspot) {
+  projectWorkHotspot.addEventListener('click', event => {
+    event.preventDefault();
+    openProjectGallery(1);
+  });
+}
+
+lightboxClose.addEventListener('click', closeProjectGallery);
+lightboxPrev.addEventListener('click', showPreviousImage);
+lightboxNext.addEventListener('click', showNextImage);
+
+lightbox.addEventListener('click', event => {
+  if (event.target === lightbox) closeProjectGallery();
+});
+
+lightboxStage.addEventListener('touchstart', event => {
+  touchStartX = event.changedTouches[0].clientX;
+}, { passive: true });
+
+lightboxStage.addEventListener('touchend', event => {
+  if (touchStartX === null) return;
+  const distance = event.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(distance) > 50) {
+    distance > 0 ? showPreviousImage() : showNextImage();
+  }
+  touchStartX = null;
+}, { passive: true });
+
 document.addEventListener('keydown', event => {
+  if (!lightbox.hidden) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeProjectGallery();
+    }
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      showPreviousImage();
+    }
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      showNextImage();
+    }
+
+    if (event.key === 'Tab') {
+      const focusableControls = [lightboxClose, lightboxPrev, lightboxNext];
+      const firstControl = focusableControls[0];
+      const lastControl = focusableControls[focusableControls.length - 1];
+      if (event.shiftKey && document.activeElement === firstControl) {
+        event.preventDefault();
+        lastControl.focus();
+      } else if (!event.shiftKey && document.activeElement === lastControl) {
+        event.preventDefault();
+        firstControl.focus();
+      }
+    }
+    return;
+  }
+
   if (event.key === 'Escape' && navLinks.classList.contains('open')) {
-    navLinks.classList.remove('open');
-    navToggle.classList.remove('active');
-    navToggle.setAttribute('aria-expanded', 'false');
-    navToggle.setAttribute('aria-label', 'Open navigation');
-    document.body.classList.remove('menu-open');
-    navToggle.focus();
+    closeMobileNav({ restoreFocus: true });
   }
 });
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768 && navLinks.classList.contains('open')) {
+    closeMobileNav();
+  }
+});
+
+updateNavigation();
 
 // ========== INTERSECTION OBSERVER — FADE IN ==========
 const fadeElements = document.querySelectorAll('.fade-in');

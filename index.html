@@ -499,6 +499,42 @@ ul {
   box-shadow: 0 38px 76px rgba(0,0,0,0.42), 0 0 0 1px rgba(139,126,102,0.22);
 }
 
+.project-cover {
+  position: relative;
+}
+
+.project-work-hotspot {
+  position: absolute;
+  left: 71.5%;
+  top: 82.6%;
+  width: 23.5%;
+  height: 8.5%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid rgba(139,126,102,0.32);
+  background: rgba(255,255,255,0.94);
+  color: #8B7E66;
+  font-size: clamp(0.56rem, 1.15vw, 0.92rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.project-work-hotspot:hover {
+  background: #8B7E66;
+  color: #FFFFFF;
+  border-color: #8B7E66;
+}
+
+#penthouse-gallery {
+  scroll-margin-top: 88px;
+}
+
 /* ========== ABOUT ========== */
 .about {
   background: #FFFFFF;
@@ -1048,9 +1084,26 @@ ul {
 
 .footer-tagline {
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.42);
   font-weight: 300;
-  font-style: italic;
+  letter-spacing: 0.03em;
+}
+
+.footer-tagline a {
+  color: rgba(255,255,255,0.68);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.footer-tagline a:hover {
+  color: #FFFFFF;
+  border-color: #8B7E66;
+}
+
+.footer-separator {
+  display: inline-block;
+  margin: 0 10px;
+  color: rgba(255,255,255,0.2);
 }
 
 /* ========== RESPONSIVE ========== */
@@ -1393,10 +1446,13 @@ ul {
 
     <!-- Project 01 -->
     <div class="project-card fade-in">
-      <div class="project-image">
+      <div class="project-image project-cover">
         <img src="assets/penthouse-interior-design-01.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Warm contemporary penthouse living and dining interiors designed by Merve Sahiner">
+        <a class="project-work-hotspot" href="#penthouse-gallery" aria-label="View the Penthouse Design project">
+          View my work
+        </a>
       </div>
-      <div class="project-image" style="margin-top:16px;">
+      <div class="project-image" id="penthouse-gallery" style="margin-top:16px;">
         <img src="assets/penthouse-interior-design-02.jpg" width="1366" height="768" loading="lazy" decoding="async" alt="Light-filled penthouse living space opening toward sea views">
       </div>
       <p class="project-number">01</p>
@@ -1657,7 +1713,11 @@ ul {
 <footer class="footer">
   <div class="container">
     <p class="footer-name">Merve Sahiner &mdash; Interior Architect / Designer &nbsp;&middot;&nbsp; 2026</p>
-    <p class="footer-tagline">Designed with intention.</p>
+    <p class="footer-tagline">
+      <a href="https://github.com/albertfast" target="_blank" rel="author noopener">Designed by albertfast</a>
+      <span class="footer-separator" aria-hidden="true">&middot;</span>
+      <a href="https://orvli.tech/asahiner/" target="_blank" rel="noopener">Developer portfolio</a>
+    </p>
   </div>
 </footer>
 
